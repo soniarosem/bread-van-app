@@ -8,7 +8,6 @@ class Shortlist(db.Model):
     student_id = db.Column(db.Integer, db.ForeignKey('student.id'), nullable=True)
     status = db.Column(db.String(50), nullable=True)  # accepted, rejected
 
-    #students = db.relationship('Student', backref=db.backref('shortlist', lazy='joined'))
 
     def __init__(self, internship_id, staff_id, student_id, status=None):
         self.internship_id = internship_id

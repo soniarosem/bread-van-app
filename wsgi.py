@@ -25,15 +25,19 @@ def init():
     db.create_all()
     mally = Employer(username='mally', password='mallypass')
     nicki = Employer(username='nicki', password='nickipass')
+    cardi = Employer(username='cardi', password='cardipass')
     drake = Staff(username='drake', password='drakepass')
     wayne = Staff(username='wayne', password='waynepass')
+    kai = Staff(username='kai', password='kaipass')
     ben = Student(username='ben', password='benpass', university='UWI', degree='Computer Science', gpa=3.5)
     angela = Student(username='angela', password='angelapass', university='UTT', degree='Finance', gpa=3.8)
-    db.session.add_all([mally, nicki, drake, wayne, ben, angela])
+    bella = Student(username='bella', password='bellapass', university='UWI', degree='Finance', gpa=3.6)
+    db.session.add_all([mally, nicki, cardi, drake, wayne, kai, ben, angela, bella])
     db.session.commit()
     print('database intialized')
 
-@app.cli.command("create_internship", help="Create an internship for an employer")
+
+@app.cli.command("create-internship", help="Create an internship for an employer")
 def create_internship():
     username = input("Enter your username: ")
 
@@ -51,6 +55,7 @@ def create_internship():
     db.session.add(new_internship)
     db.session.commit()
     print(f" Internship '{title}' created for employer '{username}'.")
+
 
 @app.cli.command("add-student", help="Lets a staff add a student to a shortlist")
 def add_student():
@@ -157,9 +162,9 @@ def set_status():
         print(f"Shortlist entry for student ID '{student_id}' not found in this internship.")
         return
 
-    new_status = input("Enter the new status (accept/reject): ").lower()
-    if new_status not in ["accept", "reject"]:
-        print("Invalid status. Please enter 'accept' or 'reject'.")
+    new_status = input("Enter the new status (accepted/rejected): ").lower()
+    if new_status not in ["accepted", "rejected"]:
+        print("Invalid status. Please enter 'accepted' or 'rejected'.")
         return
 
     shortlist_entry.status = new_status
@@ -203,7 +208,6 @@ def create_employer_command(username, password):
     create_employer(username, password)
     print(f'employer : {username} created!')
 
-# this command will be : flask user create_employer bob bobpass
 
 @user_cli.command("create_staff", help="Creates a staff")
 @click.argument("username", default="bob")
@@ -212,7 +216,6 @@ def create_staff_command(username, password):
     create_staff(username, password)
     print(f'staff : {username} created!')
 
-# this command will be : flask user create_staff bob bobpass
 
 @user_cli.command("create_student", help="Creates a student")
 @click.argument("username", default="ben")
