@@ -24,3 +24,5 @@ class User(db.Model):
         """Check hashed password."""
         return check_password_hash(self.password, password)
 
+    def __repr__(self):
+        return f'<User {self.id} - {self.username}>'
